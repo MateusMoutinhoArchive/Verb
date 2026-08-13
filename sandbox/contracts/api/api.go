@@ -6,7 +6,7 @@ import (
 
 // Lib is the entry point handed back by lib.New: an argument-vector (argv)
 // parser exposed as a struct of function fields, filled by the factories in
-// sandbox/internal/lib. Because it is a struct and not an interface, a
+// sandbox/lib. Because it is a struct and not an interface, a
 // consumer that itself uses this pattern can copy the shape of Lib into its
 // own deps contract and receive the whole parser as a single injected field.
 //
@@ -19,7 +19,7 @@ import (
 // expected flag and option has been read, whatever is left over in Args is
 // exactly the positional arguments the caller never explicitly asked for
 // (e.g. a trailing filename), retrievable in order with GetNextStringArg and
-// its typed variants. See docs/Explanations/UnnusedMechanic.md for a worked
+// its typed variants. See docs/References/UnusedMechanic.md for a worked
 // example.
 //
 // # Typed Getters
@@ -45,7 +45,7 @@ type Lib struct {
 	// Args is the argument vector being parsed, the same slice lib.New was
 	// called with. Every index-based function (GetStringArg, GetStringOption,
 	// GetStringKeyValues, ...) refers to positions in this slice. It is
-	// exported so sandbox/internal/lib can populate it from another package,
+	// exported so sandbox/lib can populate it from another package,
 	// but callers should treat it as read-only: mutating it after
 	// construction leaves Used out of sync and produces undefined matching
 	// behavior.
@@ -57,7 +57,7 @@ type Lib struct {
 	// entirely false and only grows more true over the Lib's lifetime — the
 	// Unused Mechanic reads it to find the next never-consumed positional
 	// argument. Exported for the same cross-package reason as Args; treat it
-	// as read-only from outside sandbox/internal/lib.
+	// as read-only from outside sandbox/lib.
 	Used []bool
 
 	// IsPresent reports whether any of the given flag spellings (e.g.

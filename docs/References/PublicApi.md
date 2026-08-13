@@ -1,7 +1,7 @@
 # Public API
 
 ## Description
-Index of every public-facing entry of the library. Callers hold a **struct of function fields** declared in `sandbox/contracts/api`; the **factories** that fill those fields live in `sandbox/internal/` and are unreachable from outside `sandbox/`. See [StructContracts.md](/docs/Explanations/StructContracts.md).
+Index of every public-facing entry of the library. Callers hold a **struct of function fields** declared in `sandbox/contracts/api`; the **factories** that fill those fields live in `sandbox/lib/` and are unreachable from outside `sandbox/`. See [StructContracts.md](/docs/References/StructContracts.md).
 
 ---
 

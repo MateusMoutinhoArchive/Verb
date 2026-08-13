@@ -37,9 +37,9 @@ type Lib struct {
 
 ## Description
 
-The library entry point, returned by [`lib.New`](/docs/References/PublicApi/lib.New.md). It is an argv parser exposed as a struct of function fields: `lib.New` stores the given argument vector into `Args`, allocates the matching `Used` tracking slice, then runs the factories in `sandbox/internal/lib/`, each of which fills one function field with a closure reading `Args`/`Used` at call time. Calling a field reads exactly like calling a method — `l.IsPresent([]string{"-q"})`. See [StructContracts.md](/docs/Explanations/StructContracts.md).
+The library entry point, returned by [`lib.New`](/docs/References/PublicApi/lib.New.md). It is an argv parser exposed as a struct of function fields: `lib.New` stores the given argument vector into `Args`, allocates the matching `Used` tracking slice, then runs the factories in `sandbox/lib/publicfunctions/`, each of which fills one function field with a closure reading `Args`/`Used` at call time. Calling a field reads exactly like calling a method — `l.IsPresent([]string{"-q"})`. See [StructContracts.md](/docs/References/StructContracts.md).
 
-Every `Get*`/`IsPresent` call marks the argument(s) it matched as read in `Used`; `GetNextStringArg` and its typed variants return the first argument still unread. This is the Unused Mechanic — see [UnnusedMechanic.md](/docs/Explanations/UnnusedMechanic.md).
+Every `Get*`/`IsPresent` call marks the argument(s) it matched as read in `Used`; `GetNextStringArg` and its typed variants return the first argument still unread. This is the Unused Mechanic — see [UnusedMechanic.md](/docs/References/UnusedMechanic.md).
 
 ## Fields
 

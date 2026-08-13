@@ -5,161 +5,43 @@
 [![Go Version](https://img.shields.io/badge/go-%3E%3D1.22-blue)](go.mod)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-An OS-independent Go **argv parser** library demonstrating a **struct-of-functions** public API with a clean separation between the pure library and its consumers.
+An OS-independent Go **library template** — an argv parser whose entire behavior lives inside a closed sandbox and is handed back as a struct of functions.
 
 ---
 
 ## Overview
 
-Verb is a structured Go template that showcases how to build libraries exposed as plain data instead of interfaces. The library itself lives in **`/sandbox/`**: a **closed sandbox** that reaches nothing outside itself — no third-party module, no OS-bound standard-library package. Every input it needs arrives as a plain function argument, e.g. `lib.New(os.Args[1:])`.
+Verb is a **full library template** designed to be completely independent of the underlying operating system. It provides a complete harness and architectural foundation for building Go libraries whose behavior is fully decoupled from the hosting environment, exposed as plain data instead of interfaces. Furthermore, the repository is designed to be self-teaching, providing **comprehensive tutorials for every kind of usecase** directly within its own documentation.
+
+The core of the library lives in **`/sandbox/`**: a **closed sandbox** that reaches nothing outside itself — no third-party module, no OS-bound standard-library package. Everything it needs from the outside world arrives as a plain function argument.
 
 ```
-sandbox/  ◀──  examples/
-(closed)       (consumes the lib)
+sandbox/  ◀──  examples/libraryExamples/
+(closed)       (consume the lib)
 ```
 
-- **`/sandbox/`** is the closed library and its single entry point: it takes the argument vector to parse and returns an `api.Lib`.
-  - **`/sandbox/contracts/`** holds the public types everything is wired through — the `api` structs the library hands back. Contracts are **structs of function fields**, never interfaces. This is the only part of the sandbox the outside world imports.
-  - **`/sandbox/internal/`** holds the pure library logic as **factories** — functions that take a pointer to an `api` struct and fill its function fields with closures reading that struct's own state. It declares no types and is unreachable from outside `sandbox/`.
-- **`/examples/`** sits outside the sandbox and is the only place `os.Args` is read and handed to the library.
+Nothing is exported but the library itself. There is no binary, no command, and no output of its own: a consumer hands the argument vector to `lib.New` and calls the fields of the `api.Lib` it gets back.
 
-This design ensures the library remains portable, testable, and easy to extend without modifying its core. See [SandboxIsolation.md](/docs/Explanations/SandboxIsolation.md) for the full mechanic and [StructContracts.md](/docs/Explanations/StructContracts.md) for why the contracts are structs and how factories fill them.
+- **`/sandbox/`**: The closed library taking an `[]string` and returning an `api.Lib`.
+- **`/examples/libraryExamples/`**: Places where the real process argv and the library are wired together.
 
----
+The parser it demonstrates is deliberately small — flag presence, repeatable options, `key=value` pairs, positional arguments by index, and the leftovers drained in order — but every one of those is a function field a derived library replaces with its own. See [PublicApi.md](/docs/References/PublicApi.md) for every field.
 
-## Quick Start
-
-**1. Install the library:**
-```bash
-go get github.com/MateusMoutinhoOrg/Verb@v0.0.1
-```
-
-**2. Create a `main.go` file:**
-```go
-package main
-
-import (
-    "os"
-
-    verblib "github.com/MateusMoutinhoOrg/Verb/sandbox"
-)
-
-func main() {
-    // 1. Build the library directly from the real process argv
-    l := verblib.New(os.Args[1:])
-
-    // 2. Use the library
-    quiet := l.IsPresent([]string{"-q", "--quiet"})
-    output, err := l.GetStringOption([]string{"-o", "--output"}, 0)
-    if err != nil {
-        println("no output option given")
-    }
-    println("quiet:", quiet, "output:", output)
-}
-```
-
-**3. Run:**
-```bash
-go run main.go
-```
+See [SandboxIsolation.md](/docs/References/SandboxIsolation.md) and [StructContracts.md](/docs/References/StructContracts.md) for the full mechanic.
 
 ---
 
-> [!IMPORTANT]
-> **Must Read before contributing.** The following documents are **required reading** for every developer. Do not open a pull request or make changes without first reading them:
->
-> | Document | Why it's required |
-> |----------|-------------------|
-> | [Rules](/docs/References/RULES.md) | The contribution rules and guidelines that **must** be followed for any change to be accepted. |
-> | [Structure](/docs/References/Structure.md) | The project's directory layout and the purpose of each component — needed to know **where** changes belong. |
-> | [Specs](/docs/References/Specs.md) | The index of every specification — needed to know **how** the file you are about to touch must be shaped. |
+## Doc Index
 
-## Library Usage
+Documentation is split into three themes, one index page each under `docs/Index/`, listing that theme's **Tutorials** — step-by-step workflows — and its **References** — explanations and lookups. Start from the theme index matching what you want to do.
 
-For consuming the lib as a user: install it, parse arguments, and understand what the API offers.
+| Theme | Description |
+| --- | --- |
+| [Library Usage](/docs/Index/LibUsage.md) | For library consumers: installing the module, parsing argv, and calling the Go API. |
+| [Development](/docs/Index/Development.md) | For contributors: the mechanics, the per-goal workflows, and the specifications. |
+| [Templating](/docs/Index/Templating.md) | For template users: forking, renaming, and adapting this structure into a new library. |
 
-| Doc | Description | Type |
-| --- | --- | --- |
-| [/docs/Tutorials/LibInitialization.md](/docs/Tutorials/LibInitialization.md) | Install the lib, call lib.New, and run a first program | Tutorial |
-| [/docs/Tutorials/ParseOption.md](/docs/Tutorials/ParseOption.md) | Check a flag with IsPresent and read its value with GetStringOption | Tutorial |
-| [/docs/Tutorials/UseUnusedMechanic.md](/docs/Tutorials/UseUnusedMechanic.md) | Drain the leftover positional arguments with GetNextStringArg | Tutorial |
-| [/docs/Tutorials/RunSample.md](/docs/Tutorials/RunSample.md) | Browse and run the executable samples in the examples/ directory | Tutorial |
-| [/docs/References/PublicApi.md](/docs/References/PublicApi.md) | Index of all public structs, functions, and fields with detail links | Reference |
-| [/docs/Explanations/SandboxIsolation.md](/docs/Explanations/SandboxIsolation.md) | Why the library lives in a closed sandbox and what it may not import | Explanation |
-| [/docs/Explanations/StructContracts.md](/docs/Explanations/StructContracts.md) | Why every contract is a struct of function fields, and how factories fill them | Explanation |
-
----
-
-## Samples
-
-Creating and running the example programs under `examples/`.
-
-| Doc | Description | Type |
-| --- | --- | --- |
-| [/docs/Tutorials/RunSample.md](/docs/Tutorials/RunSample.md) | Browse and run the executable samples in the examples/ directory | Tutorial |
-| [/docs/Tutorials/AddSample.md](/docs/Tutorials/AddSample.md) | Create a runnable sample in examples/ and register it in the README | Tutorial |
-
-### Available Samples
-
-| Sample | Description |
-|----------|-------------|
-| [Presence](/examples/Presence/Presence.go) | Check a boolean flag with IsPresent |
-| [Options](/examples/Options/Options.go) | Read every occurrence of a repeatable `--flag value` option |
-| [KeyValues](/examples/KeyValues/KeyValues.go) | Read every occurrence of a repeatable `key=value` argument |
-| [StringArg](/examples/StringArg/StringArg.go) | Read a positional argument by absolute index |
-| [NextArg](/examples/NextArg/NextArg.go) | Drain leftover positional arguments with the Unused Mechanic |
-
----
-
-## Extending the Library
-
-Adding new lib functionality and exposing it in the public API.
-
-| Doc | Description | Type |
-| --- | --- | --- |
-| [/docs/Tutorials/AddLibFunction.md](/docs/Tutorials/AddLibFunction.md) | Declare a function field on api.Lib and write the factory that fills it | Tutorial |
-| [/docs/Tutorials/AddLibObject.md](/docs/Tutorials/AddLibObject.md) | Add an object created by the lib, with its own New constructor | Tutorial |
-| [/docs/Tutorials/ExposePublicApi.md](/docs/Tutorials/ExposePublicApi.md) | Publish a lib function, object, or field in the public API index | Tutorial |
-| [/docs/References/PublicApi.md](/docs/References/PublicApi.md) | Index of all public structs, functions, and fields with detail links | Reference |
-
----
-
-## Documentation Management
-
-Maintaining the docs themselves: creating, renaming, and deleting `.md` files.
-
-| Doc | Description | Type |
-| --- | --- | --- |
-| [/docs/Tutorials/AddDocument.md](/docs/Tutorials/AddDocument.md) | Create or update a .md file and register it in README and Structure | Tutorial |
-| [/docs/Tutorials/RenameDocument.md](/docs/Tutorials/RenameDocument.md) | Rename or move a .md file without leaving broken references behind | Tutorial |
-| [/docs/Tutorials/DeleteDocument.md](/docs/Tutorials/DeleteDocument.md) | Remove a .md file and clear every reference pointing to it | Tutorial |
-| [/docs/References/Specs.md](/docs/References/Specs.md) | Lists every specification and the files each one governs | Reference |
-
----
-
-## Template Adaptation
-
-Turning the template into a real library of your own.
-
-| Doc | Description | Type |
-| --- | --- | --- |
-| [/docs/Tutorials/ForkTemplate.md](/docs/Tutorials/ForkTemplate.md) | Use this repo as a GitHub template to start a new library | Tutorial |
-| [/docs/Tutorials/AdaptExistingLib.md](/docs/Tutorials/AdaptExistingLib.md) | Convert a pre-existing library to this struct-of-functions structure | Tutorial |
-| [/docs/Tutorials/RenameModule.md](/docs/Tutorials/RenameModule.md) | Rename the Go module path and update all internal imports | Tutorial |
-| [/docs/References/TemplateFileActions.md](/docs/References/TemplateFileActions.md) | The action each template file takes when adapting: copy, create, rewrite, or delete | Reference |
-
----
-
-## Project Rules & Structure
-
-The binding conventions every change to this repo must follow.
-
-| Doc | Description | Type |
-| --- | --- | --- |
-| [/docs/References/RULES.md](/docs/References/RULES.md) | The binding contribution rules and their required companion updates | Reference |
-| [/docs/References/Structure.md](/docs/References/Structure.md) | The project's directory layout and the purpose of each component | Reference |
-| [/docs/References/Specs.md](/docs/References/Specs.md) | Lists every specification and the files each one governs | Reference |
-| [/docs/Explanations/SandboxIsolation.md](/docs/Explanations/SandboxIsolation.md) | Why the library lives in a closed sandbox and what it may not import | Explanation |
+New here? [Library Usage → LibInitialization.md](/docs/Tutorials/LibInitialization.md) installs the module and runs a first program.
 
 ---
 

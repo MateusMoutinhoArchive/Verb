@@ -1,7 +1,7 @@
 # Use the Unused Mechanic
 
 ## Description
-Covers draining the leftover positional arguments with `GetNextStringArg` after every expected flag and option has been read. Reading flags and options first is covered by [ParseOption.md](/docs/Tutorials/ParseOption.md); the mechanic itself is explained in [UnnusedMechanic.md](/docs/Explanations/UnnusedMechanic.md).
+Covers draining the leftover positional arguments with `GetNextStringArg` after every expected flag and option has been read. Reading flags and options first is covered by [ParseOption.md](/docs/Tutorials/ParseOption.md); the mechanic itself is explained in [UnusedMechanic.md](/docs/References/UnusedMechanic.md).
 
 ---
 

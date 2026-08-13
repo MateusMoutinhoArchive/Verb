@@ -1,7 +1,7 @@
 # Library Initialization
 
 ## Description
-Covers installing the library and initializing it in a new program. Using the parser after initialization is covered by [ParseOption.md](/docs/Tutorials/ParseOption.md). For why the entry point takes a plain argument instead of an injected dependency, see [SandboxIsolation.md](/docs/Explanations/SandboxIsolation.md).
+Covers installing the library and initializing it in a new program. Using the parser after initialization is covered by [ParseOption.md](/docs/Tutorials/ParseOption.md). For why the entry point takes a plain argument instead of an injected dependency, see [SandboxIsolation.md](/docs/References/SandboxIsolation.md).
 
 ---
 

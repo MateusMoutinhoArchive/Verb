@@ -10,7 +10,7 @@ func New(args []string) api.Lib
 
 ## Description
 
-Builds and returns the [`api.Lib`](/docs/References/PublicApi/api.Lib.md) entry point from the argument vector to parse. It stores `args` on the struct's `Args` field, allocates the matching `Used` tracking slice, then runs the factories in `sandbox/internal/lib/` over it, each filling one function field with a closure that reads `Args`/`Used` at call time. The package is named `lib` and lives at `sandbox/`, so importers alias it: `verblib "github.com/MateusMoutinhoOrg/Verb/sandbox"` — matching the `verblib` / `verbtypes` alias convention used by every consumer of this module.
+Builds and returns the [`api.Lib`](/docs/References/PublicApi/api.Lib.md) entry point from the argument vector to parse. It stores `args` on the struct's `Args` field, allocates the matching `Used` tracking slice, then runs the factories in `sandbox/lib/publicfunctions/` over it, each filling one function field with a closure that reads `Args`/`Used` at call time. The package is named `lib` and lives at `sandbox/`, so importers alias it: `verblib "github.com/MateusMoutinhoOrg/Verb/sandbox"` — matching the `verblib` / `verbtypes` alias convention used by every consumer of this module.
 
 ## Parameters
 

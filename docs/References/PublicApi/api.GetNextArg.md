@@ -13,7 +13,7 @@ GetNextTimestampArg func() (time.Time, error)
 
 ## Description
 
-The core of the Unused Mechanic (see [UnnusedMechanic.md](/docs/Explanations/UnnusedMechanic.md)): returns the first argument in [`Args`](/docs/References/PublicApi/api.Args.md), in order, whose entry in [`Used`](/docs/References/PublicApi/api.Used.md) is still `false`, and marks it used. After every flag and option a program expects has been read with `IsPresent`, [`GetStringOption`](/docs/References/PublicApi/api.GetOption.md), or [`GetStringKeyValues`](/docs/References/PublicApi/api.GetKeyValues.md) (or their typed variants), whatever remains unread is exactly the leftover positional arguments — call one of these repeatedly to drain them in order.
+The core of the Unused Mechanic (see [UnusedMechanic.md](/docs/References/UnusedMechanic.md)): returns the first argument in [`Args`](/docs/References/PublicApi/api.Args.md), in order, whose entry in [`Used`](/docs/References/PublicApi/api.Used.md) is still `false`, and marks it used. After every flag and option a program expects has been read with `IsPresent`, [`GetStringOption`](/docs/References/PublicApi/api.GetOption.md), or [`GetStringKeyValues`](/docs/References/PublicApi/api.GetKeyValues.md) (or their typed variants), whatever remains unread is exactly the leftover positional arguments — call one of these repeatedly to drain them in order.
 
 - `GetNextStringArg` returns the argument's raw text.
 - `GetNextIntArg` additionally parses it with `strconv.Atoi`.
