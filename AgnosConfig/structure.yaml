@@ -1,0 +1,116 @@
+AgnosConfig:
+  order: 1
+  dir: true
+  description: written once by `start`, read by every `build`
+sandbox:
+  order: 2
+  dir: true
+  description: "closed: imports nothing outside sandbox/, no OS packages"
+  children:
+    new.go:
+      order: 1
+      gen: true
+      description: New(deps) *api.Sandbox, one <x>.New<X> per api/ file
+    api:
+      order: 2
+      dir: true
+      description: contracts only; imports nothing but sandbox/deps
+      children:
+        sandbox.go:
+          order: 1
+          gen: true
+          description: one field per other file of api/, plus Deps
+        argv.go:
+          order: 2
+          description: the Argv contract, plus the Parser one argument vector is bound to
+        info.go:
+          order: 3
+          description: the Info contract - the library's own name and version
+    deps:
+      order: 3
+      dir: true
+      description: one dir per capability the sandbox needs from outside; each imports nothing at all
+      children:
+        deps.go:
+          order: 1
+          gen: true
+          description: one field per sub-directory, title-cased
+        std:
+          order: 2
+          dir: true
+          description: formatting and the error constructor - `fmt` may not be named inside the sandbox
+        stringsdeps:
+          order: 3
+          dir: true
+          description: prefix matching and number conversion - `strings` and `strconv` may not be named inside the sandbox
+    internal:
+      order: 4
+      dir: true
+      description: the logic; unreachable from outside the sandbox
+      children:
+        config:
+          order: 1
+          dir: true
+          description: (gen) ProjectName and Version, from AgnosConfig/project.yaml
+        argv:
+          order: 2
+          dir: true
+          description: NewArgv, the per-call NewParser, and the readers the four typed variants of every getter share
+        rfc3339:
+          order: 3
+          dir: true
+          description: RFC 3339 text to nanoseconds since the epoch, in arithmetic alone - the sandbox may not name `time`
+        info:
+          order: 4
+          dir: true
+          description: NewInfo
+adapters:
+  order: 3
+  dir: true
+  description: the only place OS-bound and third-party code lives
+  children:
+    libs:
+      order: 1
+      dir: true
+      description: one dir per adapter, each exporting Bind and carrying an adapter.yaml
+      children:
+        std:
+          order: 1
+          dir: true
+          description: std over fmt, time, runtime and os
+        stringsdeps:
+          order: 2
+          dir: true
+          description: stringsdeps over strings and strconv
+    availables:
+      order: 2
+      dir: true
+      description: one dir per selection of adapters; new.go beside each is generated from its available.yaml
+      children:
+        standard:
+          order: 1
+          dir: true
+          description: std + stringsdeps - the whole of what Verb asks of the outside world
+examples:
+  order: 4
+  dir: true
+  description: one dir per example under lib/, each a package main checked against its golden
+  children:
+    lib:
+      order: 1
+      dir: true
+      description: "<name>/example.go + props.yaml, and the result.yaml exec-test writes"
+docs:
+  order: 5
+  dir: true
+  description: one dir per doc, holding doc.md + props.yaml. README.md indexes them all
+AGENTS.md:
+  order: 6
+  description: what an agent reads first; CLAUDE.md is one line pointing here
+go.mod:
+  order: 7
+  description: written by `start`; add-dep and remove-dep edit its require block
+README.md:
+  order: 8
+  gen: true
+  description: "`render AgnosConfig/docs/ReadmeHeader.md` + the documentation index"

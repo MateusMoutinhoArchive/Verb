@@ -1,0 +1,9 @@
+cli-output: |
+    command: build
+    target: report.txt
+    used: [true false true]
+    refused: verb: arg index 9 out of range (have 3 arguments)
+exit-code: 0
+tree:
+    - file: positional-args.txt
+      sha: 87888fc3c88a9b3575e6a44e37684176d68e9deefd0497805a8e0e3366fd8b88

@@ -1,0 +1,9 @@
+cli-output: |
+    occurrences: 3
+    username 0: mateus
+    username 1: ana
+    refused: verb: key/value [username= user=]: occurrence 2 has an empty value
+exit-code: 0
+tree:
+    - file: key-values.txt
+      sha: 9b071d39eaef207879608571e88dd20bb997f16324aef3e06284ee2ffb187d1c

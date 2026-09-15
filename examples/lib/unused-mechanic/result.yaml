@@ -1,0 +1,12 @@
+cli-output: |
+    quiet: true
+    force: true
+    output: build/
+    file: first.txt
+    file: second.txt
+    file: third.txt
+    drained: verb: no unused arguments remaining
+exit-code: 0
+tree:
+    - file: unused-mechanic.txt
+      sha: 9b53bc5fdce05f0f5049748e25b05c501e2ac09837969102b81c72812c80a0a2

@@ -1,0 +1,10 @@
+cli-output: |
+    occurrences: 3
+    username 0: mateus
+    username 1: ana
+    refused: verb: option [-username --username]: flag "--username" has no following value
+    refused: verb: option [-username --username]: occurrence 3 not found (only 3 present)
+exit-code: 0
+tree:
+    - file: options.txt
+      sha: 35d3aa14c92f02707805df07ba21dc9f6252687e3ad7a3f82a93d6d69d83e7a5

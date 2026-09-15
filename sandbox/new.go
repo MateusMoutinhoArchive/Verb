@@ -1,14 +1,17 @@
-package lib
+package sandbox
 
 import (
-	"github.com/MateusMoutinhoOrg/Verb/sandbox/contracts/api"
-	"github.com/MateusMoutinhoOrg/Verb/sandbox/lib"
+	api "github.com/MateusMoutinhoOrg/Verb/sandbox/api"
+	deps "github.com/MateusMoutinhoOrg/Verb/sandbox/deps"
+	argv "github.com/MateusMoutinhoOrg/Verb/sandbox/internal/argv"
+	info "github.com/MateusMoutinhoOrg/Verb/sandbox/internal/info"
 )
 
-// New builds the api.Lib entry point from the argument vector to parse,
-// e.g. os.Args[1:]. It delegates to the sandbox/lib constructor, which
-// stores args on the struct and runs the factories over it, each of which
-// fills one function field with a closure reading it.
-func New(args []string) api.Lib {
-	return lib.New(args)
+func New(deps *deps.Deps) *api.Sandbox {
+	self := api.Sandbox{Deps: deps}
+
+	self.Argv = argv.NewArgv(&self)
+	self.Info = info.NewInfo(&self)
+
+	return &self
 }

@@ -1,0 +1,9 @@
+cli-output: |
+    file: true
+    quiet: true
+    verbose: false
+    used: [true false true]
+exit-code: 0
+tree:
+    - file: presence.txt
+      sha: 366ece0c6f3f1a1f07cb86ee115543cc8948f7a8f50c7e7bb47fd820b3904d0d

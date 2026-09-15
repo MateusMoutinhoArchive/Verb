@@ -1,1 +1,32 @@
-Agnos-Lib
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+Verb
+
+# Test binary, built with `go test -c`
+*.test
+
+# Code coverage profiles and other test artifacts
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Go workspace file
+go.work
+go.work.sum
+
+# env file
+.env
+
+# What `agnos exec-test` writes while it runs an example: the tree the example
+# produced and the copy it asserts. The golden result.yaml beside them is
+# committed; these two are rebuilt from scratch on every run.
+examples/*/*/TestDir/
+examples/*/*/AssertDir/
+
+# `agnos compile`
+release/

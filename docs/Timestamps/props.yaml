@@ -1,0 +1,5 @@
+description: The RFC 3339 grammar the Timestamp getters accept, and why an instant crosses as an int64
+name: Timestamps
+themes:
+    - lib-usage
+    - reference

@@ -1,0 +1,13 @@
+cli-output: |
+    retries: 3
+    ratio: 0.25
+    since: 1704207845000000000
+    until: 1704207845000000000
+    same instant: true
+    refused: verb: "eighty" is not a valid integer: strconv.Atoi: parsing "eighty": invalid syntax
+    refused: verb: "2023-02-29T00:00:00Z" is not a valid RFC3339 timestamp: day 29 is out of range for month 2
+    leftover: report.txt
+exit-code: 0
+tree:
+    - file: typed-values.txt
+      sha: c96b7c43c5cc2251845b135f7a6d19e9ce881365fe34a9c882601b58980d7217

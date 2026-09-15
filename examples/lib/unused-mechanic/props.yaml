@@ -1,0 +1,1 @@
+description: "Read every declared flag and option first, then drain whatever positional arguments are left over"

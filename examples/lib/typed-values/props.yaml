@@ -1,0 +1,1 @@
+description: "Read an int, a float and an RFC 3339 timestamp, and see a malformed value refused while still counting as read"

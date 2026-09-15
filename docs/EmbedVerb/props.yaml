@@ -1,0 +1,5 @@
+description: Taking Verb as a dep of another agnos project, or restating its shape in a contract of your own
+name: Embed Verb
+themes:
+    - lib-usage
+    - architecture

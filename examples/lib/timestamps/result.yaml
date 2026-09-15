@@ -1,0 +1,21 @@
+cli-output: |
+    1970-01-01T00:00:00Z             0
+    1969-12-31T23:59:59Z             -1000000000
+    2024-01-02T15:04:05Z             1704207845000000000
+    2024-01-02T12:04:05-03:00        1704207845000000000
+    2024-01-02T18:34:05+03:30        1704207845000000000
+    2024-01-02T15:04:05.25Z          1704207845250000000
+    2024-02-29T00:00:00Z             1709164800000000000
+    2024-01-02T15:04:05.1234567891Z  1704207845123456789
+
+    refused: verb: "2023-02-29T00:00:00Z" is not a valid RFC3339 timestamp: day 29 is out of range for month 2
+    refused: verb: "2024-04-31T00:00:00Z" is not a valid RFC3339 timestamp: day 31 is out of range for month 4
+    refused: verb: "2024-01-02T24:00:00Z" is not a valid RFC3339 timestamp: time 24:00:00 is out of range
+    refused: verb: "2024-01-02T15:04:05+0300" is not a valid RFC3339 timestamp: the zone must be Z or ±HH:MM
+    refused: verb: "2024-01-02 15:04:05Z" is not a valid RFC3339 timestamp: expected the layout "2006-01-02T15:04:05Z07:00"
+    refused: verb: "2024-01-02T15:04:05" is not a valid RFC3339 timestamp: too short
+    refused: verb: "1500-01-01T00:00:00Z" is outside the range an int64 of nanoseconds can hold
+exit-code: 0
+tree:
+    - file: timestamps.txt
+      sha: 762e0dda3e75c86f18e66a25d3205d7b4ab0bb92d6e36bfb5814fd47b2957da3

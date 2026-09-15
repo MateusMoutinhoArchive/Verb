@@ -1,0 +1,5 @@
+description: 'Every argument starts unread: how a matched argument is marked and what is left over'
+name: Unused Mechanic
+themes:
+    - lib-usage
+    - architecture
